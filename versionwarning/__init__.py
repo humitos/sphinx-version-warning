@@ -43,6 +43,9 @@ class VersionWarningBanner(object):
         :rtype: docutils.nodes.admonition
         """
 
+        if self.api.is_highest_version(self._current_doc_version_slug):
+            return None
+
         node_class = self.ADMONITION_TYPES.get(
             admonition_type,
             self.ADMONITION_TYPES.get(self._default_admonition_type),
@@ -107,7 +110,8 @@ def process_version_warning_banner(app, doctree, fromdocname):
     banner = VersionWarningBanner(app, doctree)
     for document in doctree.traverse(nodes.document):
         banner = banner.get_banner_node()
-        document.insert(0, banner)
+        if isinstance(banner, nodes.Admonition):
+            document.insert(0, banner)
 
 
 def setup(app):
