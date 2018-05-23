@@ -13,7 +13,7 @@ Welcome to Version Warning Banner Example
    testpage
 
 
-Version Warning Banner Example.
+Version Warning Banner Example, |version|.
 
 This is the documentation of the index page which should add an
 automatic *warning* admonition with a customized message immediately
