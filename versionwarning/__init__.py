@@ -43,7 +43,12 @@ class VersionWarningBanner(object):
         :rtype: docutils.nodes.admonition
         """
 
-        if self.api.is_highest_version(self._current_doc_version_slug):
+        if (
+            (
+                (USE_READTHEDOCS_API and self.api.is_highest_version(self._current_doc_version_slug)) or
+                newest_version.slug == self._current_doc_version_slug
+            ) and self._current_doc_version_slug not in self.app.config.versionwarning_messages
+        ):
             return None
 
         node_class = self.ADMONITION_TYPES.get(
