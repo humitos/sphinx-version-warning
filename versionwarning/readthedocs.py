@@ -45,8 +45,13 @@ class ReadTheDocsAPI(object):
         return footer_html_data
 
     def is_highest_version(self, version):
-        footer_html_data = self._get_footer_html_data(version)
-        return footer_html_data.is_highest
+        try:
+            footer_html_data = self._get_footer_html_data(version)
+            return footer_html_data.version_compare.is_highest
+        except Exception:
+            # if a 404 happens it means that we are trying to build a version
+            # that doesn't exist yet in Read the Docs
+            return True
 
     def newest_version(self):
         # TODO: use a proper API endpoint to get a specific version (slug) for a
