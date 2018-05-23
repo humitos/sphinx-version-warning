@@ -3,12 +3,15 @@
 from docutils import nodes
 import os
 
+from munch import Munch
+
+from .readthedocs import ReadTheDocsAPI
+
 
 USE_READTHEDOCS_API = os.environ.get('USE_READTHEDOCS_API', False)
 
 
 class VersionWarningBanner(object):
-
 
     ADMONITION_TYPES = {
         'warning': nodes.warning,
@@ -19,13 +22,19 @@ class VersionWarningBanner(object):
     def __init__(self, app, doctree):
         self.app = app
         self.doctree = doctree
+        self.api = self._get_api()
+
 
     def get_banner_node(self):
-        current_version = self._get_current_doc_version()
-        newest_version = self._get_latest_doc_version()
-        message = self._get_message(current_version)
+        current_version_slug = self._current_doc_version_slug
+        newest_version = self._latest_doc_version
+        message = self._get_message(current_version_slug)
         banner = self._create_banner_node(message, newest_version)
         return banner
+
+    def _get_api(self):
+        if USE_READTHEDOCS_API:
+            return ReadTheDocsAPI(self._project_slug)
 
     def _create_banner_node(self, message, newest_version, admonition_type='warning'):
         """
@@ -36,17 +45,16 @@ class VersionWarningBanner(object):
 
         node_class = self.ADMONITION_TYPES.get(
             admonition_type,
-            self.ADMONITION_TYPES.get(self._get_default_admonition_type()),
+            self.ADMONITION_TYPES.get(self._default_admonition_type),
         )
 
         paragraph = nodes.paragraph()
-        if self._get_message_placeholder() in message:
+        if self._message_placeholder in message:
             first_msg_part, second_msg_part = message.split('{newest}')
             reference = nodes.reference(
-                newest_version,
-                newest_version,
-                # TODO: get a proper uri here that points to the real version
-                refuri='http://readthedocs.org',
+                newest_version.slug,
+                newest_version.slug,
+                refuri=newest_version.url,
             )
             paragraph.append(nodes.Text(first_msg_part))
             paragraph.append(reference)
@@ -58,20 +66,31 @@ class VersionWarningBanner(object):
         banner_node.append(paragraph)
         return banner_node
 
-    def _get_message_placeholder(self):
+    @property
+    def _project_slug(self):
+        return self.app.config.versionwarning_project_slug
+
+    @property
+    def _message_placeholder(self):
         return self.app.config.versionwarning_message_placeholder
 
-    def _get_default_admonition_type(self):
+    @property
+    def _default_admonition_type(self):
         return self.app.config.versionwarning_default_admonition_type
 
-    def _get_current_doc_version(self):
+    @property
+    def _current_doc_version_slug(self):
         return self.app.config.version
 
-    def _get_latest_doc_version(self):
+    @property
+    def _latest_doc_version(self):
         if USE_READTHEDOCS_API:
-            pass
+            return self.api.newest_version()
         else:
-            return self._get_current_doc_version()
+            return Munch(
+                url='.',
+                slug=self._current_doc_version_slug,
+            )
 
     def _get_message(self, version):
         return self.app.config.versionwarning_messages.get(
@@ -99,6 +118,7 @@ def setup(app):
     app.add_config_value('versionwarning_default_admonition_type', 'warning', 'html')
     app.add_config_value('versionwarning_default_message', default_message, 'html')
     app.add_config_value('versionwarning_messages', {}, 'html')
+    app.add_config_value('versionwarning_project_slug', None, 'html')
     app.connect('doctree-resolved', process_version_warning_banner)
 
     return {'version': '0.1'}

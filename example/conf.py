@@ -29,6 +29,7 @@ version = release = '0.2'
 
 # -- Version Warning Banner configuration ------------------------------------
 versionwarning_enabled = True
+versionwarning_project_slug = 'sphinx-version-warning'
 versionwarning_messages = {
     '0.1': 'This is a custom message only for version 0.1 of this documentation',
 }
