@@ -58,7 +58,7 @@ class VersionWarningBanner(object):
 
         paragraph = nodes.paragraph()
         if self._message_placeholder in message:
-            first_msg_part, second_msg_part = message.split('{newest}')
+            first_msg_part, second_msg_part = message.split(self._message_placeholder)
             reference = nodes.reference(
                 newest_version.slug,
                 newest_version.slug,
@@ -129,5 +129,14 @@ def setup(app):
     app.add_config_value('versionwarning_messages', {}, 'html')
     app.add_config_value('versionwarning_project_slug', None, 'html')
     app.connect('doctree-resolved', process_version_warning_banner)
+
+
+    static_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '_static'))
+    app.config.html_static_path.append(static_path)
+
+    # Newer Sphinx 1.8: app.add_js_file
+    app.add_javascript('js/versionwarning.js')
+    # app.add_javascript('js/semver-parser/index.js')
+    # app.add_javascript('js/semver-parser/modules/common.js')
 
     return {'version': '0.1'}

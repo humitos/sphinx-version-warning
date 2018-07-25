@@ -4,37 +4,21 @@ import slumber
 from munch import Munch
 
 
-class APIObject(object):
-    """
-    Convert any API object into a Python object.
-    """
-
-    def __init__(self, obj):
-        # TODO: iterate over the object and convert each dictionary into a Munch
-        # instance
-        pass
-
-
 class ReadTheDocsAPI(object):
 
-    api = slumber.API('https://readthedocs.org/api/v2/')
+    API_V2_URL = 'https://readthedocs.org/api/v2/'
 
-    # TODO: remove all the usage of the APIv1
-    api_v1 = slumber.API('https://readthedocs.org/api/v1/')
+    api = slumber.API(API_V2_URL)
 
     footer_html_endpoint = (
-        'https://readthedocs.org/api/v2/footer_html/'
+        API_V2_URL + 'footer_html/'
         '?project={project}&version={version}&format=json'
     )
 
     def __init__(self, project_slug):
-        # self.project_slug = project_slug
-
-        # TODO: use APIv2 here
-        # project_data = self.api_v1.project.get(slug=project_slug)
-        # self.project = Munch(project_data['objects'][0])
-        self.project = Munch(self.api_v1.project(project_slug).get())
-        # self.project = self.api.project.get(slug=self.project_slug)
+        self.project_slug = project_slug
+        response = Munch(self.api.project.get(slug=self.project_slug))
+        self.project = Munch(response.results[0])
 
     def _get_footer_html_data(self, version):
         footer_html_data = Munch(self.api.footer_html().get(
