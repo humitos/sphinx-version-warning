@@ -9,6 +9,7 @@ from .readthedocs import ReadTheDocsAPI
 
 
 USE_READTHEDOCS_API = os.environ.get('USE_READTHEDOCS_API', False)
+static_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '_static'))
 
 
 class VersionWarningBanner(object):
@@ -119,6 +120,21 @@ def process_version_warning_banner(app, doctree, fromdocname):
             document.insert(0, banner)
 
 
+def generate_data_js(app, config):
+    import json
+    data = json.dumps({
+        'project': {
+            'slug': config.versionwarning_project_slug,
+        },
+        'version': {
+            'slug': config.version,
+            'url': '.',
+        },
+    })
+    with open(os.path.join(static_path, 'data', 'data.json'), 'w') as f:
+        f.write(data)
+
+
 def setup(app):
     default_message = 'You are not reading the most up to date version of this documentation. {newest} is the newest version.'
 
@@ -130,11 +146,13 @@ def setup(app):
     app.add_config_value('versionwarning_project_slug', None, 'html')
     app.connect('doctree-resolved', process_version_warning_banner)
 
+    # Requires Sphinx >= 1.8
+    app.connect('config-inited', generate_data_js)
 
-    static_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '_static'))
     app.config.html_static_path.append(static_path)
 
-    # Newer Sphinx 1.8: app.add_js_file
+    # New in Sphinx 1.8: app.add_js_file
+    # app.add_javascript('data/data.json')
     app.add_javascript('js/versionwarning.js')
     # app.add_javascript('js/semver-parser/index.js')
     # app.add_javascript('js/semver-parser/modules/common.js')

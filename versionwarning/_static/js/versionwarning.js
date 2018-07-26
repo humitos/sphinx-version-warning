@@ -1,8 +1,10 @@
 var API_URL = 'https://readthedocs.org/api/v2/'
-var API_URL = 'http://localhost:8000/api/v2/'
+// var API_URL = 'http://localhost:8000/api/v2/'
 
 
-function injectVersionWarningBanner(version) {
+function injectVersionWarningBanner(running_version, version) {
+    var version_url = window.location.pathname.replace(running_version.slug, version.slug);
+
     // TODO: make this warning alert configurable from conf.py
     var warning = $(
         '<div class="admonition warning"> ' +
@@ -15,7 +17,7 @@ function injectVersionWarningBanner(version) {
 
     warning
       .find('a')
-      .attr('href', version.url)  // Use the proper URL here
+      .attr('href', version_url)
       .text(version.slug);
 
     var body = $("div.body");
@@ -25,6 +27,7 @@ function injectVersionWarningBanner(version) {
     body.prepend(warning);
 }
 
+// TODO: use something like https://www.npmjs.com/package/semver-parser
 // https://maymay.net/blog/2008/06/15/ridiculously-simple-javascript-version-string-to-object-parser/
 function parseVersionString (str) {
     if (typeof(str) != 'string') { return false; }
@@ -43,15 +46,14 @@ function parseVersionString (str) {
 function getHighestVersion(versions) {
     var highest_version;
 
-    // console.log(versions);
     $.each(versions, function (i, version) {
-        if (!highest_version) {
-            // console.log(version.slug);
+        if (version.slug == 'latest') {
+            return version;
+        }
+        else if (!highest_version) {
             highest_version = version;
         }
         else if (isHighestVersion(version, highest_version)) {
-            console.log('highest: ' + version.slug);
-            console.log('old highest: ' + highest_version.slug);
             highest_version = version;
         }
     });
@@ -59,49 +61,46 @@ function getHighestVersion(versions) {
 }
 
 function isHighestVersion(highest, version) {
-    // TODO: fix this logic. I doesn't work!
-
     // Return TRUE if highest >= version, otherwise return FALSE
-    // console.log(version_a.slug);
-    // console.log(version_b.slug);
+
+    // FIXME: fix this logic. It doesn't work! Also, it doesn't
+    // support versions with "v" like "v3.4.1" and does not skip named
+    // versions ("master", "release-x", "fix-docs", etc)
     highest = parseVersionString(highest.slug);
     version = parseVersionString(version.slug);
     if (version.major < highest.major) {
-        console.log('major');
         return false;
     } else if (version.minor < highest.minor || version.patch < highest.patch) {
-        console.log('minor');
         return false;
     } else {
         return true;
     }
 }
 
-function init(project_slug) {
-    // TODO: get this data properly
-    var running_version = {
-        slug: '1.2.3',
-        url: 'https://readthedocs.org/',
-    };
+function checkVersion(project_data) {
+    var running_version = project_data.version;
+    console.debug('Running version: ' + running_version.slug);
 
     var get_data = {
-        project__slug: project_slug,
+        project__slug: project_data.project.slug,
         active: 'true',
-        format: 'jsonp',
+        // format: 'jsonp',
     };
 
     $.ajax({
         url: API_URL + "version/",
-        crossDomain: true,
-        xhrFields: {
-            withCredentials: true,
-        },
-        dataType: "jsonp",
+        // Used when working locally for development
+        // crossDomain: true,
+        // xhrFields: {
+        //     withCredentials: true,
+        // },
+        // dataType: "jsonp",
         data: get_data,
         success: function (versions) {
             highest_version = getHighestVersion(versions['results']);
             if (!isHighestVersion(running_version, highest_version)) {
-                injectVersionWarningBanner(highest_version);
+                console.debug('Highest version: ' + highest_version.slug);
+                injectVersionWarningBanner(running_version, highest_version);
             }
         },
         error: function () {
@@ -110,5 +109,16 @@ function init(project_slug) {
     });
 }
 
+function init() {
+    $.getJSON({
+        url: '_static/data/data.json',
+        success: function(data) {
+            checkVersion(data);
+        },
+        error: function() {
+            console.error('Error loading data.json');
+        },
+    })
+}
 
-init('sphinx-version-warning');
+init();
