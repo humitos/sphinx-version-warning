@@ -131,7 +131,11 @@ def generate_data_js(app, config):
             'url': '.',
         },
     })
-    with open(os.path.join(static_path, 'data', 'data.json'), 'w') as f:
+    data_path = os.path.join(static_path, 'data')
+    if not os.path.exists(data_path):
+        os.mkdir(data_path)
+
+    with open(os.path.join(data_path, 'data.json'), 'w') as f:
         f.write(data)
 
 
