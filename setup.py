@@ -10,9 +10,7 @@ setuptools.setup(
     description='Sphinx extension to add a warning banner',
     url='https://github.com/humitos/sphinx-version-warning',
     packages=setuptools.find_packages(),
-    package_data={
-        'versionwarning/_static/js': ['*.js'],
-    },
+    include_package_data=True,
     classifiers=(
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
