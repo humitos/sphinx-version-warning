@@ -9,7 +9,7 @@ from .readthedocs import ReadTheDocsAPI
 
 
 USE_READTHEDOCS_API = os.environ.get('USE_READTHEDOCS_API', False)
-STATIC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '_static'))
+STATIC_PATH = os.path.join(os.path.dirname(__file__), '_static')
 
 
 class VersionWarningBanner(object):
@@ -24,7 +24,6 @@ class VersionWarningBanner(object):
         self.app = app
         self.doctree = doctree
         self.api = self._get_api()
-
 
     def get_banner_node(self):
         current_version_slug = self._current_doc_version_slug
@@ -138,6 +137,9 @@ def generate_data_js(app, config):
     with open(os.path.join(data_path, 'data.json'), 'w') as f:
         f.write(data)
 
+    # Add the path where ``data.json`` file and ``versionwarning.js`` are saved
+    config.html_static_path.append(STATIC_PATH)
+
 
 def setup(app):
     default_message = 'You are not reading the most up to date version of this documentation. {newest} is the newest version.'
@@ -153,11 +155,9 @@ def setup(app):
     # Requires Sphinx >= 1.8
     app.connect('config-inited', generate_data_js)
 
-    app.config.html_static_path.append(STATIC_PATH)
-
     # New in Sphinx 1.8: app.add_js_file
-    # app.add_javascript('data/data.json')
     app.add_javascript('js/versionwarning.js')
+
     # app.add_javascript('js/semver-parser/index.js')
     # app.add_javascript('js/semver-parser/modules/common.js')
 

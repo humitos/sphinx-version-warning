@@ -1,2 +1,6 @@
 /example/_build
-/versionwarning/__pycache__/__init__.cpython-36.pyc
+/versionwarning/__pycache__
+/build
+/dist
+/example/.doctrees
+/sphinx_version_warning.egg-info
