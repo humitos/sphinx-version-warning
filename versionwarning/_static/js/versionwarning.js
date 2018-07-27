@@ -51,6 +51,9 @@ function getHighestVersion(versions) {
         if (version.slug == "latest") {
             return version;
         }
+        else if (version.slug.indexOf(".") == -1) {
+            // Skip it since it's not a semver
+        }
         else if (!highest_version) {
             highest_version = version;
         }
