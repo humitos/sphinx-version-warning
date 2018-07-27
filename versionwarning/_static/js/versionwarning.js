@@ -112,7 +112,7 @@ function checkVersion(project_data) {
 }
 
 function init() {
-    $.getJSON({
+    $.ajax({
         url: "_static/data/data.json",
         success: function(data) {
             checkVersion(data);
