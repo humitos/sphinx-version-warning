@@ -7,7 +7,7 @@ function injectVersionWarningBanner(running_version, version) {
 
     // TODO: make this warning alert configurable from conf.py
     var warning = $(
-        '<div class="admonition warning"> ' +
+        '<div id="version-warning-banner" class="admonition warning"> ' +
         '<p class="first admonition-title">Warning</p> ' +
         '<p class="last"> ' +
         'You are not using the most up to date version of the library. ' +
@@ -115,15 +115,19 @@ function checkVersion(project_data) {
 }
 
 function init() {
-    $.ajax({
-        url: "_static/data/data.json",
-        success: function(data) {
-            checkVersion(data);
-        },
-        error: function() {
-            console.error("Error loading data.json");
-        },
-    })
+    // Check if there is already a banner added statically
+    var banner = document.getElementById("version-warning-banner");
+    if (!banner) {
+        $.ajax({
+            url: "_static/data/data.json",
+            success: function(data) {
+                checkVersion(data);
+            },
+            error: function() {
+                console.error("Error loading data.json");
+            },
+        })
+    }
 }
 
 init();

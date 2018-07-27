@@ -70,7 +70,8 @@ class VersionWarningBanner(object):
         else:
             paragraph.append(nodes.Text(message))
 
-        banner_node = node_class()
+        # TODO: make this id a setting
+        banner_node = node_class(ids=["version-warning-banner"])
         banner_node.append(paragraph)
         return banner_node
 
