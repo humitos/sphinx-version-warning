@@ -20,6 +20,7 @@ function injectVersionWarningBanner(running_version, version) {
       .attr('href', version_url)
       .text(version.slug);
 
+    // TODO: make the way of finding the element configurable
     var body = $("div.body");
     if (!body.length) {
         body = $("div.document");
