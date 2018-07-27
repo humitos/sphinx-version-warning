@@ -1,5 +1,5 @@
-var API_URL = 'https://readthedocs.org/api/v2/'
-// var API_URL = 'http://localhost:8000/api/v2/'
+var API_URL = "https://readthedocs.org/api/v2/"
+// var API_URL = "http://localhost:8000/api/v2/"
 
 
 function injectVersionWarningBanner(running_version, version) {
@@ -8,7 +8,7 @@ function injectVersionWarningBanner(running_version, version) {
     // TODO: make this warning alert configurable from conf.py
     var warning = $(
         '<div class="admonition warning"> ' +
-        '<p class="first admonition-title">Note</p> ' +
+        '<p class="first admonition-title">Warning</p> ' +
         '<p class="last"> ' +
         'You are not using the most up to date version of the library. ' +
         '<a href="#"></a> is the newest version.' +
@@ -16,8 +16,8 @@ function injectVersionWarningBanner(running_version, version) {
         '</div>');
 
     warning
-      .find('a')
-      .attr('href', version_url)
+      .find("a")
+      .attr("href", version_url)
       .text(version.slug);
 
     // TODO: make the way of finding the element configurable
@@ -31,8 +31,8 @@ function injectVersionWarningBanner(running_version, version) {
 // TODO: use something like https://www.npmjs.com/package/semver-parser
 // https://maymay.net/blog/2008/06/15/ridiculously-simple-javascript-version-string-to-object-parser/
 function parseVersionString (str) {
-    if (typeof(str) != 'string') { return false; }
-    var x = str.split('.');
+    if (typeof(str) != "string") { return false; }
+    var x = str.split(".");
     // parse from string or default to 0 if can't parse
     var maj = parseInt(x[0]) || 0;
     var min = parseInt(x[1]) || 0;
@@ -48,7 +48,7 @@ function getHighestVersion(versions) {
     var highest_version;
 
     $.each(versions, function (i, version) {
-        if (version.slug == 'latest') {
+        if (version.slug == "latest") {
             return version;
         }
         else if (!highest_version) {
@@ -80,13 +80,13 @@ function isHighestVersion(highest, version) {
 
 function checkVersion(project_data) {
     var running_version = project_data.version;
-    console.debug('Running version: ' + running_version.slug);
+    console.debug("Running version: " + running_version.slug);
 
     var get_data = {
         project__slug: project_data.project.slug,
         // active is not yet deployed
-        // active: 'true',
-        // format: 'jsonp',
+        // active: "true",
+        // format: "jsonp",
     };
 
     $.ajax({
@@ -99,26 +99,26 @@ function checkVersion(project_data) {
         // dataType: "jsonp",
         data: get_data,
         success: function (versions) {
-            highest_version = getHighestVersion(versions['results']);
+            highest_version = getHighestVersion(versions["results"]);
             if (!isHighestVersion(running_version, highest_version)) {
-                console.debug('Highest version: ' + highest_version.slug);
+                console.debug("Highest version: " + highest_version.slug);
                 injectVersionWarningBanner(running_version, highest_version);
             }
         },
         error: function () {
-            console.error('Error loading Read the Docs active versions.');
+            console.error("Error loading Read the Docs active versions.");
         }
     });
 }
 
 function init() {
     $.getJSON({
-        url: '_static/data/data.json',
+        url: "_static/data/data.json",
         success: function(data) {
             checkVersion(data);
         },
         error: function() {
-            console.error('Error loading data.json');
+            console.error("Error loading data.json");
         },
     })
 }
