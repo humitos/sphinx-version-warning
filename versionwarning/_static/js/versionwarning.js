@@ -84,7 +84,8 @@ function checkVersion(project_data) {
 
     var get_data = {
         project__slug: project_data.project.slug,
-        active: 'true',
+        // active is not yet deployed
+        // active: 'true',
         // format: 'jsonp',
     };
 
