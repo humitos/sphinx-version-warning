@@ -9,7 +9,7 @@ from .readthedocs import ReadTheDocsAPI
 
 
 USE_READTHEDOCS_API = os.environ.get('USE_READTHEDOCS_API', False)
-static_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '_static'))
+STATIC_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '_static'))
 
 
 class VersionWarningBanner(object):
@@ -131,7 +131,7 @@ def generate_data_js(app, config):
             'url': '.',
         },
     })
-    data_path = os.path.join(static_path, 'data')
+    data_path = os.path.join(STATIC_PATH, 'data')
     if not os.path.exists(data_path):
         os.mkdir(data_path)
 
@@ -153,7 +153,7 @@ def setup(app):
     # Requires Sphinx >= 1.8
     app.connect('config-inited', generate_data_js)
 
-    app.config.html_static_path.append(static_path)
+    app.config.html_static_path.append(STATIC_PATH)
 
     # New in Sphinx 1.8: app.add_js_file
     # app.add_javascript('data/data.json')
