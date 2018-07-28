@@ -29,28 +29,33 @@ Examples
 
 There is a live example living at Read the Docs:
 
-- latest version doesn't show any kind of warning banner
-  - https://sphinx-version-warning-example.readthedocs.io/en/latest/
+- `latest`_ version doesn't show any kind of warning banner
+- `0.0.1`_ version shows a custom and fixed message added at build time
+- `0.0.2`_ version shows a warning banner saying that 0.0.3 is available (at the time of writing this docs)
+- `0.0.3`_ version doesn't show any banner since it's the latest version (at the time of writing this docs)
 
-- 0.0.1 version shows a custom and fixed message added at build time
-  - https://sphinx-version-warning-example.readthedocs.io/en/0.0.1/
 
-- 0.0.2 version shows a warning banner saying that 0.0.3 is available (at the time of writing this docs)
-  - https://sphinx-version-warning-example.readthedocs.io/en/0.0.2/
-
-- 0.0.3 version doesn't show any banner since it's the latest version (at the time of writing this docs)
-  - https://sphinx-version-warning-example.readthedocs.io/en/0.0.3/
+.. _latest: https://sphinx-version-warning-example.readthedocs.io/en/latest/
+.. _0.0.1: https://sphinx-version-warning-example.readthedocs.io/en/0.0.1/
+.. _0.0.2: https://sphinx-version-warning-example.readthedocs.io/en/0.0.2/
+.. _0.0.3: https://sphinx-version-warning-example.readthedocs.io/en/0.0.3/
 
 
 
 Customization
 -------------
 
-Some customization can be done using the `conf.py` file of your Sphinx project:
+Some customization can be done using the ``conf.py`` file of your Sphinx project:
 
-:versionwarning_enabled: (bool) enable/disable version warning extension
-:versionwarning_default_admonition_type: (string) type of admonition for the banner (warning, admonitionor note)
-:versionwarning_default_message: (string) default message for the warning banner
-:versionwarning_message: (dict) mapping between versions and messages for its banners
-:versionwarning_message_placeholder: (string) text to be replaced by the version number link from the message
-:versionwarning_project_slug: (string) slug of the project under Read the Docs
+versionwarning_enabled (bool)
+   enable/disable version warning extension
+versionwarning_default_admonition_type (string)
+   type of admonition for the banner (warning, admonition or note)
+versionwarning_default_message (string)
+   default message for the warning banner
+versionwarning_message (dict)
+   mapping between versions and messages for its banners
+versionwarning_message_placeholder (string)
+   text to be replaced by the version number link from the message
+versionwarning_project_slug (string)
+   slug of the project under Read the Docs
