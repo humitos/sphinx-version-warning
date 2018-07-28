@@ -1,1 +1,4 @@
+include README.rst
+include LICENSE
+include CHANGELOG.rst
 include versionwarning/_static/js/versionwarning.js

@@ -159,4 +159,8 @@ def setup(app):
     # New in Sphinx 1.8: app.add_js_file
     app.add_javascript('js/versionwarning.js')
 
-    return {'version': '0.0.1'}
+    return {'version': version}
+
+
+name = 'versionwarning'
+version = '0.0.1'
