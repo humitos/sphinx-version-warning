@@ -7,3 +7,4 @@
 /versionwarning/_static/data/data.json
 /node_modules
 /package-lock.json
+*.pyc
