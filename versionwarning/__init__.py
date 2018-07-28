@@ -71,10 +71,13 @@ class VersionWarningBanner(object):
         else:
             paragraph.append(nodes.Text(message))
 
-        # TODO: make this id a setting
-        banner_node = node_class(ids=["version-warning-banner"])
+        banner_node = node_class(ids=[self._banner_id_div])
         banner_node.append(paragraph)
         return banner_node
+
+    @property
+    def _banner_id_div(self):
+        return self.app.config.versionwarning_banner_id_div
 
     @property
     def _project_slug(self):
@@ -121,8 +124,17 @@ def process_version_warning_banner(app, doctree, fromdocname):
             document.insert(0, banner)
 
 
-def generate_data_js(app, config):
+def generate_versionwarning_data_json(app, config):
     data = json.dumps({
+        'meta': {
+            'api_url': config.versionwarning_api_url,
+        },
+        'banner': {
+            'html': config.versionwarning_banner_html,
+            'id_div': config.versionwarning_banner_id_div,
+            'body_default_selector': config.versionwarning_body_default_selector,
+            'body_extra_selector': config.versionwarning_body_extra_selector,
+        },
         'project': {
             'slug': config.versionwarning_project_slug,
         },
@@ -131,30 +143,51 @@ def generate_data_js(app, config):
             'url': '.',
         },
     })
+
     data_path = os.path.join(STATIC_PATH, 'data')
     if not os.path.exists(data_path):
         os.mkdir(data_path)
 
-    with open(os.path.join(data_path, 'data.json'), 'w') as f:
+    with open(os.path.join(data_path, 'versionwarning-data.json'), 'w') as f:
         f.write(data)
 
-    # Add the path where ``data.json`` file and ``versionwarning.js`` are saved
+    # Add the path where ``versionwarning-data.json`` file and
+    # ``versionwarning.js`` are saved
     config.html_static_path.append(STATIC_PATH)
 
 
 def setup(app):
     default_message = 'You are not reading the most up to date version of this documentation. {newest} is the newest version.'
 
+    banner_html = '''
+    <div id="{id_div}" class="admonition warning">
+        <p class="first admonition-title">{banner_title}</p>
+            <p class="last">
+                {message}
+            </p>
+    </div>'''.format(
+        id_div='version-warning-banner',
+        banner_title='Warning',
+        message=default_message.format(newest='<a href="#"></a>'),
+    )
+
     app.add_config_value('versionwarning_enabled', False, 'html')
     app.add_config_value('versionwarning_message_placeholder', '{newest}', 'html')
     app.add_config_value('versionwarning_default_admonition_type', 'warning', 'html')
     app.add_config_value('versionwarning_default_message', default_message, 'html')
     app.add_config_value('versionwarning_messages', {}, 'html')
+
+    app.add_config_value('versionwarning_api_url', 'https://readthedocs.org/api/v2/', 'html')
+    app.add_config_value('versionwarning_banner_html', banner_html, 'html')
+    app.add_config_value('versionwarning_banner_id_div', 'version-warning-banner', 'html')
+    app.add_config_value('versionwarning_body_default_selector', 'div.body', 'html')
+    app.add_config_value('versionwarning_body_extra_selector', 'div.document', 'html')
     app.add_config_value('versionwarning_project_slug', None, 'html')
+
     app.connect('doctree-resolved', process_version_warning_banner)
 
     # Requires Sphinx >= 1.8
-    app.connect('config-inited', generate_data_js)
+    app.connect('config-inited', generate_versionwarning_data_json)
 
     # New in Sphinx 1.8: app.add_js_file
     app.add_javascript('js/versionwarning.js')
