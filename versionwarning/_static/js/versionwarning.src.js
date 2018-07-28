@@ -41,7 +41,9 @@ function getHighestVersion(versions) {
         else if (!highest_version) {
             highest_version = version;
         }
-        else if (semver.gt(version, highest_version)) {
+        else if (
+            semver.valid(version.slug) && semver.valid(highest_version.slug) &&
+                semver.gt(version.slug, highest_version.slug)) {
             highest_version = version;
         }
     });
@@ -71,7 +73,9 @@ function checkVersion(project_data) {
         data: get_data,
         success: function (versions) {
             highest_version = getHighestVersion(versions["results"]);
-            if (!isHighestVersion(running_version, highest_version)) {
+            if (
+                semver.valid(running_version.slug) && semver.valid(highest_version.slug) &&
+                    semver.lt(running_version.slug, highest_version.slug)) {
                 console.debug("Highest version: " + highest_version.slug);
                 injectVersionWarningBanner(running_version, highest_version);
             }
