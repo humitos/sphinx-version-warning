@@ -1,7 +1,7 @@
-var semver = require('semver')
+const semver = require('semver');
 
-var API_URL = "https://readthedocs.org/api/v2/"
-// var API_URL = "http://localhost:8000/api/v2/"
+var API_URL = "https://readthedocs.org/api/v2/";
+// var API_URL = "http://localhost:8000/api/v2/";
 
 
 function injectVersionWarningBanner(running_version, version) {
@@ -35,8 +35,8 @@ function getHighestVersion(versions) {
     var highest_version;
 
     $.each(versions, function (i, version) {
-        if (version.slug == "latest") {
-            return version;
+        if (!semver.valid(version.slug)) {
+            // Skip versions that are not valid
         }
         else if (!highest_version) {
             highest_version = version;
@@ -72,6 +72,7 @@ function checkVersion(project_data) {
         // dataType: "jsonp",
         data: get_data,
         success: function (versions) {
+            // TODO: fetch more versions if there are more pages (next)
             highest_version = getHighestVersion(versions["results"]);
             if (
                 semver.valid(running_version.slug) && semver.valid(highest_version.slug) &&
