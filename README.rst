@@ -6,7 +6,8 @@ Sphinx Version Warning Extension
 Sphinx Version Warning is a Sphinx_ extension that allows you to show a *Warning* banner at the top of your documentation.
 The banner is shown based on the version that is displayed compared (using SemVer_) with the latest version on the server.
 
-This extension was originally created to be compatible with `Read the Docs`_ API and currently it's the only backend that supports.
+This extension was originally created to be compatible with `Read the Docs`_ API and currently it's the only backend that supports
+(inspired by https://github.com/rtfd/readthedocs.org/issues/3481#issuecomment-378000845)
 
 .. _Sphinx: http://www.sphinx-doc.org/
 .. _SemVer: https://semver.org/
