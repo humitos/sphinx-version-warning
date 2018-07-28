@@ -5,3 +5,5 @@
 /example/.doctrees
 /sphinx_version_warning.egg-info
 /versionwarning/_static/data/data.json
+/node_modules
+/package-lock.json
