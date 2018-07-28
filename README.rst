@@ -73,13 +73,33 @@ Some customization can be done using the ``conf.py`` file of your Sphinx project
 
 versionwarning_enabled (bool)
    enable/disable version warning extension
+
 versionwarning_default_admonition_type (string)
    type of admonition for the banner (warning, admonition or note)
+
 versionwarning_default_message (string)
    default message for the warning banner
-versionwarning_message (dict)
+
+versionwarning_messages (dict)
    mapping between versions and messages for its banners
+
 versionwarning_message_placeholder (string)
    text to be replaced by the version number link from the message
+
 versionwarning_project_slug (string)
    slug of the project under Read the Docs
+
+versionwarning_api_url (string)
+   API URL to retrieve all versions for this project
+
+versionwarning_banner_html (string)
+   HTML code used for the banner shown
+
+versionwarning_banner_id_div (string)
+   HTML element ID used for the <div> inject as banner
+
+versionwarning_body_default_selector (string)
+   jQuery selector to find the body element in the page
+
+versionwarning_body_extra_selector (string)
+   jQuery selector to find the body element in the page if ``versionwarning_body_default_selector`` wasn't found
