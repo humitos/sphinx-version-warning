@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from docutils import nodes
+import json
 import os
 
 from munch import Munch
@@ -121,7 +122,6 @@ def process_version_warning_banner(app, doctree, fromdocname):
 
 
 def generate_data_js(app, config):
-    import json
     data = json.dumps({
         'project': {
             'slug': config.versionwarning_project_slug,
@@ -158,8 +158,5 @@ def setup(app):
 
     # New in Sphinx 1.8: app.add_js_file
     app.add_javascript('js/versionwarning.js')
-
-    # app.add_javascript('js/semver-parser/index.js')
-    # app.add_javascript('js/semver-parser/modules/common.js')
 
     return {'version': '0.1'}
