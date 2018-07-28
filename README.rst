@@ -103,3 +103,17 @@ versionwarning_body_default_selector (string)
 
 versionwarning_body_extra_selector (string)
    jQuery selector to find the body element in the page if ``versionwarning_body_default_selector`` wasn't found
+
+
+How to contribute?
+------------------
+
+Pull Requests are always welcome!
+
+Generate assets
+***************
+
+::
+
+    npm install
+    ./node_modules/.bin/webpack
