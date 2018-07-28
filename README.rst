@@ -41,6 +41,29 @@ There is a live example living at Read the Docs:
 .. _0.0.3: https://sphinx-version-warning-example.readthedocs.io/en/0.0.3/
 
 
+Installation
+------------
+
+Just run this ``pip`` command insider your virtualenv::
+
+   pip install sphinx-version-warning
+
+
+Then in your ``conf.py`` you have to add ``versionwarning`` in the ``extensions`` list. Should be similar to::
+
+  extensions = [
+      'versionwarning',
+  ]
+
+Enable it and setup the Read the Docs project's slug::
+
+  versionwarning_enabled = True
+  versionwarning_project_slug = 'sphinx-version-warning'
+
+Remember to configure the ``version`` of your Sphinx project since it's the key for this to work properly::
+
+  version = '0.0.1'
+
 
 Customization
 -------------
