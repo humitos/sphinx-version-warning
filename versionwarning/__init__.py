@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 
+name = 'versionwarning'
+version = '0.0.1'
+
 
 def setup(app):
+    import sphinx
     from .signals import process_version_warning_banner, generate_versionwarning_data_json
 
     default_message = 'You are not reading the most up to date version of this documentation. {newest} is the newest version.'
@@ -33,14 +37,19 @@ def setup(app):
 
     app.connect('doctree-resolved', process_version_warning_banner)
 
-    # Requires Sphinx >= 1.8
-    app.connect('config-inited', generate_versionwarning_data_json)
+    if sphinx.version_info >= (1, 8):
+        # ``config-initied`` requires Sphinx >= 1.8
+        app.connect('config-inited', generate_versionwarning_data_json)
 
-    # New in Sphinx 1.8: app.add_js_file
-    app.add_javascript('js/versionwarning.js')
+        # ``add_js_file`` requires Sphinx >= 1.8
+        app.add_js_file('js/versionwarning.js')
+    else:
+        app.connect('builder-inited', generate_versionwarning_data_json)
+        app.add_javascript('js/versionwarning.js')
 
-    return {'version': version}
-
-
-name = 'versionwarning'
-version = '0.0.1'
+    return {
+        'version': version,
+        'env_version': 1,
+        'parallel_read_safe': True,
+        'parallel_write_safe': True,
+    }
