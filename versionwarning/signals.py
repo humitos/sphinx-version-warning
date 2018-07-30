@@ -21,7 +21,7 @@ def process_version_warning_banner(app, doctree, fromdocname):
             document.insert(0, banner)
 
 
-def generate_versionwarning_data_json(app, **kwargs):
+def generate_versionwarning_data_json(**args, **kwargs):
     """
     Generate the ``versionwarning-data.json`` file.
 
@@ -31,13 +31,18 @@ def generate_versionwarning_data_json(app, **kwargs):
 
     Besides, this file contains meta data about the project, the API to use and
     the banner itself.
+
+    Arguments are
+     - ``app`` and ``config`` in Sphinx >=1.8
+     - ``app`` in Sphinx 1.7
     """
 
     # In Sphinx >= 1.8 we use ``config-initied`` signal which comes with the
     # ``config`` object and in Sphinx < 1.8 we use ``builder-initied`` signal
     # that doesn't have the ``config`` object and we take it from the ``app``
-    config = kwargs.pop('config', None)
-    if config is None:
+    if len(args) == 2:
+        config = args[1]
+    else:
         config = app.config
 
     data = json.dumps({
