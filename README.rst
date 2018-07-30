@@ -117,3 +117,18 @@ Generate assets
 
     npm install
     ./node_modules/.bin/webpack
+
+
+Releasing
+---------
+
+1. Increment the version in ``__init__.py``
+1. Increment the version in ``package.json``
+1. Update the ``CHANGELOG.rst``
+1. Tag the release in git: git tag $NEW_VERSION.
+1. Push the tag to GitHub: git push --tags origin
+1. Upload the package to PyPI::
+
+     $ rm -rf dist/
+     $ python setup.py sdist bdist_wheel
+     $ twine upload dist/*

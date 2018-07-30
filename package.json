@@ -1,6 +1,6 @@
 {
   "name": "sphinx-version-warning",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "semver": "^5.5.0",
     "webpack": "^4.16.3",
