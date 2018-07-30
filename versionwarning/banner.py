@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from docutils import nodes
+from docutils import nodes, core
 from munch import Munch
 import os
 
@@ -53,19 +53,12 @@ class VersionWarningBanner(object):
             self.ADMONITION_TYPES.get(self._default_admonition_type),
         )
 
-        paragraph = nodes.paragraph()
         if self._message_placeholder in message:
-            first_msg_part, second_msg_part = message.split(self._message_placeholder)
-            reference = nodes.reference(
-                newest_version.slug,
-                newest_version.slug,
-                refuri=newest_version.url,
-            )
-            paragraph.append(nodes.Text(first_msg_part))
-            paragraph.append(reference)
-            paragraph.append(nodes.Text(second_msg_part))
-        else:
-            paragraph.append(nodes.Text(message))
+            message = message.replace(self._message_placeholder, '`{text} <url>`_'.format(
+                text=newest_version.slug,
+                url=newest_version.url,
+            ))
+        paragraph = core.publish_doctree(message)[0]
 
         banner_node = node_class(ids=[self._banner_id_div])
         banner_node.append(paragraph)
