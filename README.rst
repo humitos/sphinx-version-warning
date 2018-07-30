@@ -122,11 +122,11 @@ Generate assets
 Releasing
 ---------
 
-#. Increment the version in ``__init__.py``
+#. Increment the version in ``versionwarning/__init__.py``
 #. Increment the version in ``package.json``
 #. Update the ``CHANGELOG.rst``
-#. Tag the release in git: git tag $NEW_VERSION.
-#. Push the tag to GitHub: git push --tags origin
+#. Tag the release in git: ``git tag $NEW_VERSION``
+#. Push the tag to GitHub: ``git push --tags origin``
 #. Upload the package to PyPI::
 
      $ rm -rf dist/
