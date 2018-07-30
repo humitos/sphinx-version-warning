@@ -59,11 +59,15 @@ Then in your ``conf.py`` you have to add ``versionwarning`` in the ``extensions`
 Enable it and setup the Read the Docs project's slug::
 
   versionwarning_enabled = True
-  versionwarning_project_slug = 'sphinx-version-warning'
 
 Remember to configure the ``version`` of your Sphinx project since it's the key for this to work properly::
 
   version = '0.0.1'
+
+.. warning::
+
+   If ``READTHEDOCS_VERSION`` variable is defined, the extension will use its value.
+   Otherwise, ``versionwarning_project_version`` will be used and if it's not defined, ``version`` as last resource.
 
 
 Customization
@@ -87,7 +91,10 @@ versionwarning_message_placeholder (string)
    text to be replaced by the version number link from the message
 
 versionwarning_project_slug (string)
-   slug of the project under Read the Docs
+   slug of the project under Read the Docs (default to ``READTHEDOCS_PROJECT`` environment variable)
+
+versionwarning_project_version (string)
+   slug of the version for the current documentation (default to ``READTHEDOCS_VERSION`` environment variable or ``version`` variable from ``conf.py``)
 
 versionwarning_api_url (string)
    API URL to retrieve all versions for this project
