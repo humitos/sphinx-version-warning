@@ -49,8 +49,8 @@ class VersionWarningBanner(object):
             return None
 
         node_class = self.ADMONITION_TYPES.get(
-            admonition_type,
-            self.ADMONITION_TYPES.get(self._default_admonition_type),
+            self._default_admonition_type,
+            self.ADMONITION_TYPES.get(admonition_type),
         )
 
         if self._message_placeholder in message:
