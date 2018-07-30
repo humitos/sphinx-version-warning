@@ -1,3 +1,14 @@
+0.2.0
+-----
+
+:Date: 2018-07-30
+
+  * Use ``READTHEDOCS_PROJECT`` and ``READTHEDOCS_VERSION`` environment variables
+
+  * Remove ``versionwarning_enabled`` config since it wasn't used and it's not necessary
+
+  * Parse ``versionwarning_messages`` as reStructuredText (https://github.com/humitos/sphinx-version-warning/pull/7)
+
 0.1.0
 -----
 
