@@ -1,31 +1,17 @@
 const semver = require('semver');
 
-var API_URL = "https://readthedocs.org/api/v2/";
-// var API_URL = "http://localhost:8000/api/v2/";
-
-
-function injectVersionWarningBanner(running_version, version) {
+function injectVersionWarningBanner(running_version, version, config) {
     var version_url = window.location.pathname.replace(running_version.slug, version.slug);
-
-    // TODO: make this warning alert configurable from conf.py
-    var warning = $(
-        '<div id="version-warning-banner" class="admonition warning"> ' +
-        '<p class="first admonition-title">Warning</p> ' +
-        '<p class="last"> ' +
-        'You are not using the most up to date version of the library. ' +
-        '<a href="#"></a> is the newest version.' +
-        '</p>' +
-        '</div>');
+    var warning = $(config.banner.html);
 
     warning
       .find("a")
       .attr("href", version_url)
       .text(version.slug);
 
-    // TODO: make the way of finding the element configurable
-    var body = $("div.body");
+    var body = $(config.banner.body_default_selector);
     if (!body.length) {
-        body = $("div.document");
+        body = $(config.banner.body_extra_selector);
     }
     body.prepend(warning);
 }
@@ -51,19 +37,19 @@ function getHighestVersion(versions) {
 }
 
 
-function checkVersion(project_data) {
-    var running_version = project_data.version;
+function checkVersion(config) {
+    var running_version = config.version;
     console.debug("Running version: " + running_version.slug);
 
     var get_data = {
-        project__slug: project_data.project.slug,
+        project__slug: config.project.slug,
         // active is not yet deployed
         // active: "true",
         // format: "jsonp",
     };
 
     $.ajax({
-        url: API_URL + "version/",
+        url: config.meta.api_url + "version/",
         // Used when working locally for development
         // crossDomain: true,
         // xhrFields: {
@@ -78,7 +64,7 @@ function checkVersion(project_data) {
                 semver.valid(running_version.slug) && semver.valid(highest_version.slug) &&
                     semver.lt(running_version.slug, highest_version.slug)) {
                 console.debug("Highest version: " + highest_version.slug);
-                injectVersionWarningBanner(running_version, highest_version);
+                injectVersionWarningBanner(running_version, highest_version, config);
             }
         },
         error: function () {
@@ -88,19 +74,22 @@ function checkVersion(project_data) {
 }
 
 function init() {
-    // Check if there is already a banner added statically
-    var banner = document.getElementById("version-warning-banner");
-    if (!banner) {
-        $.ajax({
-            url: "_static/data/data.json",
-            success: function(data) {
-                checkVersion(data);
-            },
-            error: function() {
-                console.error("Error loading data.json");
-            },
-        })
-    }
+    $.ajax({
+        url: "_static/data/versionwarning-data.json",
+        success: function(config) {
+            // Check if there is already a banner added statically
+            var banner = document.getElementById(config.banner.id_div);
+            if (banner) {
+                console.debug("There is already a banner added. No checking versions.")
+            }
+            else {
+                checkVersion(config);
+            }
+        },
+        error: function() {
+            console.error("Error loading versionwarning-data.json");
+        },
+    })
 }
 
 
