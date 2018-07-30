@@ -5,6 +5,7 @@ version = '0.1.0'
 
 
 def setup(app):
+    import os
     import sphinx
     from .signals import process_version_warning_banner, generate_versionwarning_data_json
 
@@ -22,7 +23,6 @@ def setup(app):
         message=default_message.format(newest='<a href="#"></a>'),
     )
 
-    app.add_config_value('versionwarning_enabled', False, 'html')
     app.add_config_value('versionwarning_message_placeholder', '{newest}', 'html')
     app.add_config_value('versionwarning_default_admonition_type', 'warning', 'html')
     app.add_config_value('versionwarning_default_message', default_message, 'html')
@@ -33,7 +33,8 @@ def setup(app):
     app.add_config_value('versionwarning_banner_id_div', 'version-warning-banner', 'html')
     app.add_config_value('versionwarning_body_default_selector', 'div.body', 'html')
     app.add_config_value('versionwarning_body_extra_selector', 'div.document', 'html')
-    app.add_config_value('versionwarning_project_slug', None, 'html')
+    app.add_config_value('versionwarning_project_slug', os.environ.get('READTHEDOCS_PROJECT', None), 'html')
+    app.add_config_value('versionwarning_project_version', os.environ.get('READTHEDOCS_VERSION', None), 'html')
 
     app.connect('doctree-resolved', process_version_warning_banner)
 

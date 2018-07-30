@@ -82,7 +82,11 @@ class VersionWarningBanner(object):
 
     @property
     def _current_doc_version_slug(self):
-        return self.app.config.version
+        return (
+            os.environ.get('READTHEDOCS_VERSION', None) or
+            self.app.config.versionwarning_project_version or
+            self.app.config.version
+        )
 
     @property
     def _latest_doc_version(self):
