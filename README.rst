@@ -56,9 +56,6 @@ Then in your ``conf.py`` you have to add ``versionwarning`` in the ``extensions`
       'versionwarning',
   ]
 
-Enable it and setup the Read the Docs project's slug::
-
-  versionwarning_enabled = True
 
 Remember to configure the ``version`` of your Sphinx project since it's the key for this to work properly::
 
@@ -74,9 +71,6 @@ Customization
 -------------
 
 Some customization can be done using the ``conf.py`` file of your Sphinx project:
-
-versionwarning_enabled (bool)
-   enable/disable version warning extension
 
 versionwarning_default_admonition_type (string)
    type of admonition for the banner (warning, admonition or note)

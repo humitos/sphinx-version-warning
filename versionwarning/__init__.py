@@ -23,7 +23,6 @@ def setup(app):
         message=default_message.format(newest='<a href="#"></a>'),
     )
 
-    app.add_config_value('versionwarning_enabled', False, 'html')
     app.add_config_value('versionwarning_message_placeholder', '{newest}', 'html')
     app.add_config_value('versionwarning_default_admonition_type', 'warning', 'html')
     app.add_config_value('versionwarning_default_message', default_message, 'html')
