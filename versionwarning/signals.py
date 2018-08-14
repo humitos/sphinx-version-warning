@@ -26,10 +26,17 @@ def generate_versionwarning_data_json(app, **kwargs):
     if config is None:
         config = app.config
 
+    if config.versionwarning_project_version in config.versionwarning_messages:
+        custom = True
+        message = config.versionwarning_messages.get(config.versionwarning_project_version)
+    else:
+        custom = False
+        message = config.versionwarning_default_message
+
     banner_html = config.versionwarning_banner_html.format(
         id_div=config.versionwarning_banner_id_div,
         banner_title=config.versionwarning_banner_title,
-        message=config.versionwarning_default_message.format(
+        message=message.format(
             **{config.versionwarning_message_placeholder: '<a href="#"></a>'},
         ),
         admonition_type=config.versionwarning_admonition_type,
@@ -43,6 +50,7 @@ def generate_versionwarning_data_json(app, **kwargs):
             'html': banner_html,
             'id_div': config.versionwarning_banner_id_div,
             'body_default_selector': config.versionwarning_body_default_selector,
+            'custom': custom,
         },
         'project': {
             'slug': config.versionwarning_project_slug,
