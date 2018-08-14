@@ -10,9 +10,6 @@ function injectVersionWarningBanner(running_version, version, config) {
       .text(version.slug);
 
     var body = $(config.banner.body_default_selector);
-    if (!body.length) {
-        body = $(config.banner.body_extra_selector);
-    }
     body.prepend(warning);
 }
 

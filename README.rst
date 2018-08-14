@@ -72,7 +72,7 @@ Customization
 
 Some customization can be done using the ``conf.py`` file of your Sphinx project:
 
-versionwarning_default_admonition_type (string)
+versionwarning_admonition_type (string)
    type of admonition for the banner (warning, admonition or note)
 
 versionwarning_default_message (string)
@@ -80,9 +80,6 @@ versionwarning_default_message (string)
 
 versionwarning_messages (dict)
    mapping between versions and messages for its banners
-
-versionwarning_message_placeholder (string)
-   text to be replaced by the version number link from the message
 
 versionwarning_project_slug (string)
    slug of the project under Read the Docs (default to ``READTHEDOCS_PROJECT`` environment variable)
@@ -101,9 +98,6 @@ versionwarning_banner_id_div (string)
 
 versionwarning_body_default_selector (string)
    jQuery selector to find the body element in the page
-
-versionwarning_body_extra_selector (string)
-   jQuery selector to find the body element in the page if ``versionwarning_body_default_selector`` wasn't found
 
 
 How to contribute?
