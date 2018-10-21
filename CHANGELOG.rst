@@ -1,3 +1,23 @@
+1.0.0
+-----
+
+:Date: UNRELEASED
+
+  * Remove ability to add the warning banner statically
+
+  * Make the banner more customizable (all the configs are included in the ``json`` file generated and available from Javascript)
+
+  * Rename ``versionwarning_default_admonition_type`` by ``versionwarning_admonition_type``
+
+  * Rename ``versionwarning_body_default_selector`` by ``versionwarning_body_selector``
+
+  * Remove ``versionwarning_body_extra_selector``
+
+  * Refactor the code to avoid potential circular imports
+
+  * Filter Read the Docs versions by ``active=True`` when retrieving versions
+
+
 0.2.0
 -----
 

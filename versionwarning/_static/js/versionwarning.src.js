@@ -1,6 +1,7 @@
 const semver = require('semver');
 
 function injectVersionWarningBanner(running_version, version, config) {
+    console.debug("injectVersionWarningBanner");
     var version_url = window.location.pathname.replace(running_version.slug, version.slug);
     var warning = $(config.banner.html);
 
@@ -9,15 +10,21 @@ function injectVersionWarningBanner(running_version, version, config) {
       .attr("href", version_url)
       .text(version.slug);
 
-    var body = $(config.banner.body_default_selector);
-    if (!body.length) {
-        body = $(config.banner.body_extra_selector);
-    }
+    var body = $(config.banner.body_selector);
+    body.prepend(warning);
+}
+
+
+function injectCustomWarningBanner(config) {
+    console.debug("injectCustomWarningBanner");
+    var warning = $(config.banner.html);
+    var body = $(config.banner.body_selector);
     body.prepend(warning);
 }
 
 
 function getHighestVersion(versions) {
+    console.debug("getHighestVersion");
     var highest_version;
 
     $.each(versions, function (i, version) {
@@ -38,13 +45,13 @@ function getHighestVersion(versions) {
 
 
 function checkVersion(config) {
+    console.debug("checkVersion");
     var running_version = config.version;
     console.debug("Running version: " + running_version.slug);
 
     var get_data = {
         project__slug: config.project.slug,
-        // active is not yet deployed
-        // active: "true",
+        active: "true"
         // format: "jsonp",
     };
 
@@ -74,6 +81,7 @@ function checkVersion(config) {
 }
 
 function init() {
+    console.debug("init");
     $.ajax({
         url: "_static/data/versionwarning-data.json",
         success: function(config) {
@@ -81,6 +89,9 @@ function init() {
             var banner = document.getElementById(config.banner.id_div);
             if (banner) {
                 console.debug("There is already a banner added. No checking versions.")
+            }
+            else if (config.banner.custom) {
+                injectCustomWarningBanner(config);
             }
             else {
                 checkVersion(config);

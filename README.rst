@@ -18,9 +18,9 @@ How it works?
 -------------
 
 When visiting a page in Read the Docs that was built with this extension enabled,
-an AJAX request is done to the Read the Docs servers to retrieve all the versions of the project.
+an AJAX request is done to the Read the Docs servers to retrieve all the **active versions** of the project.
 These versions are compared against the one that we are reading and if it's an old version,
-a red *Warning* banner appears at the top of the page.
+a *Warning* banner appears at the top of the page.
 
 
 Examples
@@ -31,13 +31,11 @@ Examples
 There is a live example living at Read the Docs:
 
 - `latest`_ version doesn't show any kind of warning banner
-- `0.0.1`_ version shows a custom and fixed message added at build time
 - `0.0.2`_ version shows a warning banner saying that 0.0.3 is available (at the time of writing this docs)
 - `0.0.3`_ version doesn't show any banner since it's the latest version (at the time of writing this docs)
 
 
 .. _latest: https://sphinx-version-warning-example.readthedocs.io/en/latest/
-.. _0.0.1: https://sphinx-version-warning-example.readthedocs.io/en/0.0.1/
 .. _0.0.2: https://sphinx-version-warning-example.readthedocs.io/en/0.0.2/
 .. _0.0.3: https://sphinx-version-warning-example.readthedocs.io/en/0.0.3/
 
@@ -57,14 +55,16 @@ Then in your ``conf.py`` you have to add ``versionwarning`` in the ``extensions`
   ]
 
 
-Remember to configure the ``version`` of your Sphinx project since it's the key for this to work properly::
+Remember to configure the ``versionwarning_project_version`` and ``versionwarning_project_slug`` of your Sphinx project since it's the key for this to work properly::
 
-  version = '0.0.1'
+  versionwarning_project_version = '0.0.1'
+  versionwarning_project_slug = 'sphinx-version-warning'
 
 .. warning::
 
-   If ``READTHEDOCS_VERSION`` variable is defined, the extension will use its value.
-   Otherwise, ``versionwarning_project_version`` will be used and if it's not defined, ``version`` as last resource.
+   If you are building your documentation under Read the Docs,
+   ``READTHEDOCS_VERSION`` and ``READTHEDOCS_PROECT`` environment variables will be defined and there is no need to define these variables,
+   unless you want to override the default values.
 
 
 Customization
@@ -72,7 +72,7 @@ Customization
 
 Some customization can be done using the ``conf.py`` file of your Sphinx project:
 
-versionwarning_default_admonition_type (string)
+versionwarning_admonition_type (string)
    type of admonition for the banner (warning, admonition or note)
 
 versionwarning_default_message (string)
@@ -88,7 +88,7 @@ versionwarning_project_slug (string)
    slug of the project under Read the Docs (default to ``READTHEDOCS_PROJECT`` environment variable)
 
 versionwarning_project_version (string)
-   slug of the version for the current documentation (default to ``READTHEDOCS_VERSION`` environment variable or ``version`` variable from ``conf.py``)
+   slug of the version for the current documentation (default to ``READTHEDOCS_VERSION`` environment variable)
 
 versionwarning_api_url (string)
    API URL to retrieve all versions for this project
@@ -99,11 +99,8 @@ versionwarning_banner_html (string)
 versionwarning_banner_id_div (string)
    HTML element ID used for the <div> inject as banner
 
-versionwarning_body_default_selector (string)
-   jQuery selector to find the body element in the page
-
-versionwarning_body_extra_selector (string)
-   jQuery selector to find the body element in the page if ``versionwarning_body_default_selector`` wasn't found
+versionwarning_body_selector (string)
+   jQuery selector to find the body element in the page and *prepend* the banner
 
 
 How to contribute?
