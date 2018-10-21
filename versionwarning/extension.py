@@ -25,7 +25,7 @@ def setup(app):
     app.add_config_value('versionwarning_banner_html', banner_html, 'html')
     app.add_config_value('versionwarning_banner_id_div', 'version-warning-banner', 'html')
     app.add_config_value('versionwarning_banner_title', 'Warning', 'html')
-    app.add_config_value('versionwarning_body_default_selector', 'div.body', 'html')
+    app.add_config_value('versionwarning_body_selector', 'div.body', 'html')
     app.add_config_value('versionwarning_project_slug', os.environ.get('READTHEDOCS_PROJECT', None), 'html')
     app.add_config_value('versionwarning_project_version', os.environ.get('READTHEDOCS_VERSION', None), 'html')
 

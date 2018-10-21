@@ -96,8 +96,8 @@ versionwarning_banner_html (string)
 versionwarning_banner_id_div (string)
    HTML element ID used for the <div> inject as banner
 
-versionwarning_body_default_selector (string)
-   jQuery selector to find the body element in the page
+versionwarning_body_selector (string)
+   jQuery selector to find the body element in the page and *prepend* the banner
 
 
 How to contribute?

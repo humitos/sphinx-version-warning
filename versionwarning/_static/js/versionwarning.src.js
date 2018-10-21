@@ -10,7 +10,7 @@ function injectVersionWarningBanner(running_version, version, config) {
       .attr("href", version_url)
       .text(version.slug);
 
-    var body = $(config.banner.body_default_selector);
+    var body = $(config.banner.body_selector);
     body.prepend(warning);
 }
 
@@ -18,7 +18,7 @@ function injectVersionWarningBanner(running_version, version, config) {
 function injectCustomWarningBanner(config) {
     console.debug("injectCustomWarningBanner");
     var warning = $(config.banner.html);
-    var body = $(config.banner.body_default_selector);
+    var body = $(config.banner.body_selector);
     body.prepend(warning);
 }
 

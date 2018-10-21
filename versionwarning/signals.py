@@ -49,7 +49,7 @@ def generate_versionwarning_data_json(app, **kwargs):
         'banner': {
             'html': banner_html,
             'id_div': config.versionwarning_banner_id_div,
-            'body_default_selector': config.versionwarning_body_default_selector,
+            'body_selector': config.versionwarning_body_selector,
             'custom': custom,
         },
         'project': {
