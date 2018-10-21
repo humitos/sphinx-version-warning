@@ -1,7 +1,7 @@
 const semver = require('semver');
 
 function injectVersionWarningBanner(running_version, version, config) {
-    console.debug("injectVersionwarningbanner");
+    console.debug("injectVersionWarningBanner");
     var version_url = window.location.pathname.replace(running_version.slug, version.slug);
     var warning = $(config.banner.html);
 
@@ -24,7 +24,7 @@ function injectCustomWarningBanner(config) {
 
 
 function getHighestVersion(versions) {
-    console.debug("getHighestversion");
+    console.debug("getHighestVersion");
     var highest_version;
 
     $.each(versions, function (i, version) {
