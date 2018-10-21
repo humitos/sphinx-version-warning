@@ -5,6 +5,7 @@ import os
 
 
 STATIC_PATH = os.path.join(os.path.dirname(__file__), '_static')
+JSON_DATA_FILENAME = 'versionwarning-data.json'
 
 
 def generate_versionwarning_data_json(app, **kwargs):
@@ -64,7 +65,7 @@ def generate_versionwarning_data_json(app, **kwargs):
     if not os.path.exists(data_path):
         os.mkdir(data_path)
 
-    with open(os.path.join(data_path, 'versionwarning-data.json'), 'w') as f:
+    with open(os.path.join(data_path, JSON_DATA_FILENAME), 'w') as f:
         f.write(data)
 
     # Add the path where ``versionwarning-data.json`` file and
