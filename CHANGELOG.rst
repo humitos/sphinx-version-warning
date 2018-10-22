@@ -1,7 +1,15 @@
+1.0.1
+-----
+
+:Date: 2018-10-22
+
+  * Fix compatibility between Sphinx 1.7 and Sphinx 1.8
+
+
 1.0.0
 -----
 
-:Date: UNRELEASED
+:Date: 2018-10-21
 
   * Remove ability to add the warning banner statically
 
