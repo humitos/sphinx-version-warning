@@ -8,7 +8,7 @@ STATIC_PATH = os.path.join(os.path.dirname(__file__), '_static')
 JSON_DATA_FILENAME = 'versionwarning-data.json'
 
 
-def generate_versionwarning_data_json(app, **kwargs):
+def generate_versionwarning_data_json(app, config=None, **kwargs):
     """
     Generate the ``versionwarning-data.json`` file.
 
@@ -23,7 +23,7 @@ def generate_versionwarning_data_json(app, **kwargs):
     # In Sphinx >= 1.8 we use ``config-initied`` signal which comes with the
     # ``config`` object and in Sphinx < 1.8 we use ``builder-initied`` signal
     # that doesn't have the ``config`` object and we take it from the ``app``
-    config = kwargs.pop('config', None)
+    config = config or kwargs.pop('config', None)
     if config is None:
         config = app.config
 
