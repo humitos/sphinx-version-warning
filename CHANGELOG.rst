@@ -1,3 +1,10 @@
+1.0.2
+-----
+
+:Date: 2018-10-22
+
+  * Fix a mistake when releasing
+
 1.0.1
 -----
 
