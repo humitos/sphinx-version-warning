@@ -80,6 +80,16 @@ function checkVersion(config) {
     });
 }
 
+function handleBanner(config) {
+    console.debug("handleBanner");
+    if (config.banner.custom) {
+        injectCustomWarningBanner(config);
+    }
+    else {
+        checkVersion(config);
+    }
+}
+
 function init() {
     console.debug("init");
     $.ajax({
@@ -90,11 +100,30 @@ function init() {
             if (banner) {
                 console.debug("There is already a banner added. No checking versions.")
             }
-            else if (config.banner.custom) {
-                injectCustomWarningBanner(config);
+            else if (config.meta.json_url && !config.meta.retrieve_data_from_api) {
+                console.debug("Retrieving dynamic data from 'json_url'.")
+                $.ajax({
+                    dataType: "json",
+                    cache: "false",
+                    url: config.meta.json_url,
+                    success: function(dynamic_config) {
+                        if (config.version.slug in dynamic_config) {
+                            handleBanner(dynamic_config[config.version.slug]);
+                        }
+                        else if (config.meta.only_override_banner) {
+                            handleBanner(config);
+                        }
+                        else {
+                            log.error("JSON data from " + config.meta.json_url + " does not have a warning banner for " + config.version.slug);
+                        }
+                    },
+                    error: function() {
+                        console.error("Error loading dynamic config object");
+                    },
+                });
             }
             else {
-                checkVersion(config);
+                handleBanner(config);
             }
         },
         error: function() {

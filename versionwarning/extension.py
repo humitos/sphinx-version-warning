@@ -29,6 +29,11 @@ def setup(app):
     app.add_config_value('versionwarning_project_slug', os.environ.get('READTHEDOCS_PROJECT', None), 'html')
     app.add_config_value('versionwarning_project_version', os.environ.get('READTHEDOCS_VERSION', None), 'html')
 
+
+    app.add_config_value('versionwarning_retrieve_data_from_api', True, 'html')
+    app.add_config_value('versionwarning_json_url', None, 'html')
+    app.add_config_value('versionwarning_only_override_banner', True, 'html')
+
     if sphinx.version_info >= (1, 8):
         # ``config-initied`` requires Sphinx >= 1.8
         app.connect('config-inited', generate_versionwarning_data_json)
