@@ -3,6 +3,8 @@
 import json
 import os
 
+from versionwarning.exceptions import ConfigError
+
 
 STATIC_PATH = os.path.join(os.path.dirname(__file__), '_static')
 JSON_DATA_FILENAME = 'versionwarning-data.json'
@@ -27,6 +29,9 @@ def generate_versionwarning_data_json(app, config=None, **kwargs):
     if config is None:
         config = app.config
 
+    if not config.versionwarning_retrieve_data_from_api and not config.versionwarning_json_url:
+        raise ConfigError(ConfigError.NO_JSON_URL)
+
     if config.versionwarning_project_version in config.versionwarning_messages:
         custom = True
         message = config.versionwarning_messages.get(config.versionwarning_project_version)
@@ -43,15 +48,14 @@ def generate_versionwarning_data_json(app, config=None, **kwargs):
         admonition_type=config.versionwarning_admonition_type,
     )
 
-    data = json.dumps({
-        'meta': {
-            'api_url': config.versionwarning_api_url,
-        },
+    data = {
         'banner': {
-            'html': banner_html,
-            'id_div': config.versionwarning_banner_id_div,
-            'body_selector': config.versionwarning_body_selector,
-            'custom': custom,
+            config.versionwarning_project_version: {
+                'html': banner_html,
+                'id_div': config.versionwarning_banner_id_div,
+                'body_selector': config.versionwarning_body_selector,
+                'custom': custom,
+            },
         },
         'project': {
             'slug': config.versionwarning_project_slug,
@@ -59,14 +63,29 @@ def generate_versionwarning_data_json(app, config=None, **kwargs):
         'version': {
             'slug': config.versionwarning_project_version,
         },
-    }, indent=4)
+    }
+
+    if config.versionwarning_retrieve_data_from_api:
+        url_key = 'api_url'
+        url = config.versionwarning_api_url
+    else:
+        url_key = 'json_url'
+        url = config.versionwarning_json_url
+
+    data.update({
+        'meta': {
+            url_key: url,
+            'retrieve_data_from_api': config.versionwarning_retrieve_data_from_api,
+            'only_override_banner': config.versionwarning_only_override_banner,
+        },
+    })
 
     data_path = os.path.join(STATIC_PATH, 'data')
     if not os.path.exists(data_path):
         os.mkdir(data_path)
 
     with open(os.path.join(data_path, JSON_DATA_FILENAME), 'w') as f:
-        f.write(data)
+        f.write(json.dumps(data, indent=4))
 
     # Add the path where ``versionwarning-data.json`` file and
     # ``versionwarning.js`` are saved
