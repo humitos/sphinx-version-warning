@@ -28,15 +28,15 @@ function getHighestVersion(versions) {
     var highest_version;
 
     $.each(versions, function (i, version) {
-        if (!semver.valid(version.slug)) {
+        if (!semver.valid(coerce(version.slug))) {
             // Skip versions that are not valid
         }
         else if (!highest_version) {
             highest_version = version;
         }
         else if (
-            semver.valid(version.slug) && semver.valid(highest_version.slug) &&
-                semver.gt(version.slug, highest_version.slug)) {
+            semver.valid(coerce(version.slug)) && semver.valid(coerce(highest_version.slug)) &&
+            semver.gt(coerce(version.slug), coerce(highest_version.slug))) {
             highest_version = version;
         }
     });
@@ -68,8 +68,8 @@ function checkVersion(config) {
             // TODO: fetch more versions if there are more pages (next)
             highest_version = getHighestVersion(versions["results"]);
             if (
-                semver.valid(running_version.slug) && semver.valid(highest_version.slug) &&
-                    semver.lt(running_version.slug, highest_version.slug)) {
+                semver.valid(coerce(running_version.slug)) && semver.valid(coerce(highest_version.slug)) &&
+                semver.lt(coerce(running_version.slug), coerce(highest_version.slug))) {
                 console.debug("Highest version: " + highest_version.slug);
                 injectVersionWarningBanner(running_version, highest_version, config);
             }
