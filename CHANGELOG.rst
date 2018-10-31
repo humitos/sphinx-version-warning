@@ -1,9 +1,16 @@
+1.1.1
+-----
+
+:Date: 2018-10-31
+
+  * Fix calling to ``coerce`` by ``semver.coerce``
+
 1.1.0
 -----
 
 :Date: 2018-10-31
 
-  * support semver prefixed with ``v``, like ``v2.0.5`` (https://github.com/humitos/sphinx-version-warning/pull/16)
+  * Support semver prefixed with ``v``, like ``v2.0.5`` (https://github.com/humitos/sphinx-version-warning/pull/16)
 
 1.0.2
 -----
