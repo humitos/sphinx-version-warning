@@ -51,7 +51,7 @@ Just run this ``pip`` command insider your virtualenv::
 Then in your ``conf.py`` you have to add ``versionwarning`` in the ``extensions`` list. Should be similar to::
 
   extensions = [
-      'versionwarning',
+      'versionwarning.extension',
   ]
 
 
