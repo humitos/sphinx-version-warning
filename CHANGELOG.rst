@@ -1,3 +1,10 @@
+1.1.0
+-----
+
+:Date: 2018-10-31
+
+  * support semver prefixed with ``v``, like ``v2.0.5`` (https://github.com/humitos/sphinx-version-warning/pull/16)
+
 1.0.2
 -----
 
