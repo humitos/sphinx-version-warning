@@ -45,12 +45,13 @@ There is a live example living at Read the Docs:
 Installation
 ------------
 
-Just run this ``pip`` command insider your virtualenv::
+Just run this ``pip`` command inside your virtualenv::
 
    pip install sphinx-version-warning
 
 
-Then in your ``conf.py`` you have to add ``versionwarning`` in the ``extensions`` list. Should be similar to::
+Then in your ``conf.py`` you have to add ``versionwarning.extension`` in the ``extensions`` list.
+Should be similar to::
 
   extensions = [
       'versionwarning.extension',
