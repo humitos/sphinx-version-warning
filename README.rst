@@ -31,13 +31,15 @@ Examples
 There is a live example living at Read the Docs:
 
 - `latest`_ version doesn't show any kind of warning banner
-- `0.0.2`_ version shows a warning banner saying that 0.0.3 is available (at the time of writing this docs)
-- `0.0.3`_ version doesn't show any banner since it's the latest version (at the time of writing this docs)
+- `0.0.1`_ version shows a custom message for this particular version
+- `0.0.2`_ version shows a warning banner saying that 0.0.4 is available (at the time of writing this docs)
+- `0.0.4`_ version doesn't show any banner since it's the latest version (at the time of writing this docs)
 
 
 .. _latest: https://sphinx-version-warning-example.readthedocs.io/en/latest/
+.. _0.0.1: https://sphinx-version-warning-example.readthedocs.io/en/0.0.1/
 .. _0.0.2: https://sphinx-version-warning-example.readthedocs.io/en/0.0.2/
-.. _0.0.3: https://sphinx-version-warning-example.readthedocs.io/en/0.0.3/
+.. _0.0.4: https://sphinx-version-warning-example.readthedocs.io/en/0.0.4/
 
 
 Installation
