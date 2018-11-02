@@ -82,8 +82,12 @@ function checkVersion(config) {
 
 function init() {
     console.debug("init");
+    // get the base_url so we can get the versionwarning-data.json from
+    // any page.
+    var base_url = $('script[src*=versionwarning]').attr('src');
+    base_url = base_url.replace('versionwarning.js', '');
     $.ajax({
-        url: "_static/data/versionwarning-data.json",
+        url: base_url + "../../_static/data/versionwarning-data.json",
         success: function(config) {
             // Check if there is already a banner added statically
             var banner = document.getElementById(config.banner.id_div);
