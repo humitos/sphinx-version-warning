@@ -1,3 +1,10 @@
+1.1.2
+-----
+
+:Date: 2018-11-03
+
+  * Load JSON file in all the pages properly (https://github.com/humitos/sphinx-version-warning/pull/20)
+
 1.1.1
 -----
 
