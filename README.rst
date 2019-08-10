@@ -34,6 +34,8 @@ Documentation
 
 Check out the full documentation at https://sphinx-version-warning.readthedocs.io/
 
+.. _SemVer: https://semver.org/
+
 
 .. |PyPI version| image:: https://img.shields.io/pypi/v/sphinx-version-warning.svg
    :target: https://pypi.org/project/sphinx-version-warning
