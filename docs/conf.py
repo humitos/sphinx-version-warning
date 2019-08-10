@@ -19,8 +19,8 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'Sphinx Version Warning'
-copyright = '2018, Manuel Kaufmann'
+project = 'sphinx-version-warning'
+copyright = '2019, Manuel Kaufmann'
 author = 'Manuel Kaufmann'
 
 # The short X.Y version
