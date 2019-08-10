@@ -1,10 +1,11 @@
+|PyPI version| |Docs badge| |License|
+
 sphinx-version-warning
 ======================
 
 ``sphinx-version-warning`` is a Sphinx extension that allows you to show a Warning banner at the top of your documentation.
 By default, the banner is shown based on the version that is displayed compared (using SemVer_) with the latest version on the server.
 
-|PyPI version| |Docs badge| |License|
 
 Installation
 ------------
@@ -40,6 +41,6 @@ Check out the full documentation at https://sphinx-version-warning.readthedocs.i
 .. |Docs badge| image:: https://readthedocs.org/projects/sphinx-version-warning/badge/?version=latest
    :target: https://sphinx-version-warning.readthedocs.io/en/latest/?badge=latest
    :alt: Documentation status
-.. |License| image:: https://img.shields.io/github/license/readthedocs/sphinx-version-warning.svg
+.. |License| image:: https://img.shields.io/github/license/humitos/sphinx-version-warning.svg
    :target: LICENSE
    :alt: Repository license
