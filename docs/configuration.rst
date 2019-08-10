@@ -6,9 +6,17 @@ You can customize these options in your ``conf.py`` file:
 
 .. confval:: versionwarning_admonition_type
 
-   Description: Admonition node type used to render the banner. ``warning``, ``admonition`` or ``note``.
+   Description: Admonition node type used to render the banner. ``warning``, ``admonition``, ``tip`` or ``note``.
 
    Default: ``'warning'``
+
+   Type: string
+
+.. confval:: versionwarning_banner_title
+
+   Description: Title used in the banner.
+
+   Default: ``'Warning'``
 
    Type: string
 

@@ -33,7 +33,8 @@ version = release = versionwarning.version
 versionwarning_messages = {
     'latest': 'This is a custom message only for version "latest" of this documentation.',
 }
-versionwarning_admonition_type = 'note'
+versionwarning_admonition_type = 'tip'
+versionwarning_banner_title = 'Tip'
 versionwarning_body_selector = 'div[itemprop="articleBody"]'
 
 # -- General configuration ---------------------------------------------------
