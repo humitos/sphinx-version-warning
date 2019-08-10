@@ -1,4 +1,5 @@
 /example/_build
+/docs/_build
 /versionwarning/__pycache__
 /build
 /dist
