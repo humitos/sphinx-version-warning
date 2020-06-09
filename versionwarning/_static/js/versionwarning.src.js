@@ -43,6 +43,14 @@ function getHighestVersion(versions) {
     return highest_version;
 }
 
+function showBanner(running_version, highest_version) {
+    if (
+        semver.valid(semver.coerce(running_version.slug)) && semver.valid(semver.coerce(highest_version.slug)) &&
+        semver.lt(semver.coerce(running_version.slug), semver.coerce(highest_version.slug))) {
+        console.debug("Highest version: " + highest_version.slug);
+        injectVersionWarningBanner(running_version, highest_version, config);
+    }
+}
 
 function checkVersion(config) {
     console.debug("checkVersion");
@@ -67,12 +75,7 @@ function checkVersion(config) {
         success: function (versions) {
             // TODO: fetch more versions if there are more pages (next)
             highest_version = getHighestVersion(versions["results"]);
-            if (
-                semver.valid(semver.coerce(running_version.slug)) && semver.valid(semver.coerce(highest_version.slug)) &&
-                semver.lt(semver.coerce(running_version.slug), semver.coerce(highest_version.slug))) {
-                console.debug("Highest version: " + highest_version.slug);
-                injectVersionWarningBanner(running_version, highest_version, config);
-            }
+            showBanner(running_version, highest_version);
         },
         error: function () {
             console.error("Error loading Read the Docs active versions.");
@@ -96,6 +99,9 @@ function init() {
             }
             else if (config.banner.custom) {
                 injectCustomWarningBanner(config);
+            }
+            else if (config.meta.check_version_fn) {
+                config.meta.check_version_fn(config, showBanner);
             }
             else {
                 checkVersion(config);
