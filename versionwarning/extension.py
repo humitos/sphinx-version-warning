@@ -28,6 +28,7 @@ def setup(app):
     app.add_config_value('versionwarning_body_selector', 'div.body', 'html')
     app.add_config_value('versionwarning_project_slug', os.environ.get('READTHEDOCS_PROJECT', None), 'html')
     app.add_config_value('versionwarning_project_version', os.environ.get('READTHEDOCS_VERSION', None), 'html')
+    app.add_config_value('versionwarning_check_version_fn', '', 'html')
 
     if sphinx.version_info >= (1, 8):
         # ``config-initied`` requires Sphinx >= 1.8
