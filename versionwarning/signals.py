@@ -46,6 +46,7 @@ def generate_versionwarning_data_json(app, config=None, **kwargs):
     data = json.dumps({
         'meta': {
             'api_url': config.versionwarning_api_url,
+            'check_version_fn': config.versionwarning_check_version_fn,
         },
         'banner': {
             'html': banner_html,
