@@ -65,8 +65,13 @@ def generate_versionwarning_data_json(app, config=None, **kwargs):
     if not os.path.exists(data_path):
         os.mkdir(data_path)
 
-    with open(os.path.join(data_path, JSON_DATA_FILENAME), 'w') as f:
-        f.write(data)
+    # Generate json file during build, not at runtime. I am not sure about
+    # proper way to distinguish these cases, but if build went ok, at runtime
+    # this file would already exist, probably read-only.
+    out = os.path.join(data_path, JSON_DATA_FILENAME)
+    if not os.path.exists(out):
+        with open(os.path.join(data_path, JSON_DATA_FILENAME), 'w') as f:
+            f.write(data)
 
     # Add the path where ``versionwarning-data.json`` file and
     # ``versionwarning.js`` are saved
